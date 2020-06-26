@@ -3,7 +3,7 @@ import unittest
 from aed_ds.exceptions import EmptyListException, InvalidPositionException
 from aed_ds.lists.doubly_linked_list import DoublyLinkedList
 from aed_ds.lists.doubly_linked_list_iterator import DoublyLinkedListIterator
-from aed_ds.lists.tad_iterator import Iterator
+from aed_ds.tad_iterator import Iterator, TwoWayIterator
 
 class TestDoublyLinkedList(unittest.TestCase):
     def setUp(self):
@@ -12,12 +12,11 @@ class TestDoublyLinkedList(unittest.TestCase):
     def add_elements(self, quantity, shift=0):
         for i in range(quantity):
             self.list.insert_last(f"element {i+1+shift}")
-
     def remove_elements(self, quantity):
         for _ in range(quantity):
             self.list.remove_last()
 
-    def test_is_empty(self): 
+    def test_is_empty(self):
         self.assertTrue(self.list.is_empty())
         self.add_elements(1)
         self.assertFalse(self.list.is_empty())
@@ -74,7 +73,6 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.list.insert_last("element")
         self.assertEqual(self.list.get_last(), "element")
 
-
     def test_insert(self):
         with self.assertRaises(InvalidPositionException):
             self.list.insert("element X", 42)
@@ -94,7 +92,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.add_elements(5)
         self.list.remove_first()
         self.assertEqual(self.list.get_first(), "element 2")
-
+        
     def test_remove_first_single_element(self):
         self.list.make_empty()
         self.add_elements(1)
@@ -198,5 +196,9 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.assertTrue(self.list.is_empty())
 
     def test_iterator(self):
-        self.assertIsInstance(self.list.iterator(), Iterator)
+        self.assertIsInstance(self.list.iterator(), Iterator) # Already tested with TwoWayIterator
+        self.assertIsInstance(self.list.iterator(), TwoWayIterator)
         self.assertIsInstance(self.list.iterator(), DoublyLinkedListIterator)
+
+if __name__ == "__main__":
+    unittest.main()
